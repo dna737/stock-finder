@@ -37,7 +37,7 @@ export default function Graph({ ticker = "AAPL" }) {
                 // Use Promise.all to wait for all map operations to complete
                 const finalThing = await Promise.all(
                     result.map(async (point) => ({
-                        datetime: point.datetime.split(" ")[1],
+                        datetime: point.datetime,
                         close: parseFloat(point.close),
                     }))
                 );
