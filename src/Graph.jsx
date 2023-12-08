@@ -19,7 +19,7 @@ export default function Graph({ ticker = "AAPL" }) {
     const url =
         import.meta.env.VITE_TWELVEURL_FORMER +
         "" +
-        ticker +
+        ticker.toUpperCase() +
         import.meta.env.VITE_TWELVEURL_LATTER;
     useEffect(() => {
         async function fetchData() {
@@ -51,6 +51,7 @@ export default function Graph({ ticker = "AAPL" }) {
                 setGraphInfo(finalThing.reverse());
             } catch (error) {
                 console.error(error);
+                //TODO: display another component later.
             }
         }
 

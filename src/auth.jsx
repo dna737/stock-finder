@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import Graph from "./Graph";
+import DecideStockComponent from "./Navigator";
 
 const supabase = createClient(
     import.meta.env.VITE_SUPABASE_CLIENT_URL,
@@ -16,7 +16,8 @@ export default function App() {
     const [submittedValue, setSubmittedValue] = useState("AAPL");
 
     const handleSubmit = (value) => {
-        setSubmittedValue(value);
+        setSubmittedValue(value.toUpperCase());
+        console.log("newValueSet");
     };
 
     useEffect(() => {
@@ -46,7 +47,7 @@ export default function App() {
         return (
             <div className="flex flex-col my-3.5 mx-3.5 justify-between w-full h-full">
                 <InputForm onSubmit={handleSubmit} />
-                <Graph ticker={submittedValue} />
+                <DecideStockComponent ticker={submittedValue} />
             </div>
         );
     }
