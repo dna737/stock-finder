@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import DecideStockComponent from "./Navigator";
+import Graph from "./Graph";
 
 const supabase = createClient(
     import.meta.env.VITE_SUPABASE_CLIENT_URL,
@@ -13,10 +13,24 @@ const supabase = createClient(
 
 export default function App() {
     const [session, setSession] = useState(null);
-    const [submittedValue, setSubmittedValue] = useState("AAPL");
+    const [currInput, setCurrInput] = useState(["AAPL", true]);
 
-    const handleSubmit = (value) => {
-        setSubmittedValue(value.toUpperCase());
+    const handleSubmit = async (value) => {
+        const { data, error } = await supabase
+            .from("PermittedStocks")
+            .select("Ticker")
+            .match({ Ticker: value.toUpperCase() });
+
+        console.log("data:", data);
+        if (error) {
+            console.error("Error checking the database:", error.message);
+            return;
+        }
+
+        const isInDB = data.length > 0;
+
+        setCurrInput([value.toUpperCase(), isInDB]);
+
         console.log("newValueSet");
     };
 
@@ -47,7 +61,9 @@ export default function App() {
         return (
             <div className="flex flex-col my-3.5 mx-3.5 justify-between w-full h-full">
                 <InputForm onSubmit={handleSubmit} />
-                <DecideStockComponent ticker={submittedValue} />
+                {(currInput[1] && <Graph ticker={currInput[0]} />) || (
+                    <h1 className="text-white">WOW</h1>
+                )}
             </div>
         );
     }
