@@ -31,6 +31,7 @@ export default function App() {
         const isInDB = data.length > 0;
 
         setCurrInput([value.toUpperCase(), isInDB]);
+        console.log("🚀 ~ file: auth.jsx:35 ~ handleSubmit ~  isInDB:", isInDB);
 
         console.log("newValueSet");
     };
@@ -62,15 +63,22 @@ export default function App() {
         return (
             <div className="flex flex-col my-3.5 mx-3.5 justify-between w-full h-full">
                 <InputForm onSubmit={handleSubmit} />
-                {(currInput[1] && <Graph ticker={currInput[0]} />) ||
-                    (<ErrorComponent /> && activateCoffeeButton())}
+                {(currInput[1] && <Graph ticker={currInput[0]} />) || (
+                    <ErrorComponent />
+                )}
+                {activateCoffeeButton()}
             </div>
         );
     }
 }
 
 function activateCoffeeButton() {
-    document.getElementById("buyMeACoffee").showModal();
+    const modal = document.getElementById("buyMeACoffee");
+    if (modal) {
+        modal.showModal();
+    } else {
+        console.error("doesnt work");
+    }
 }
 
 function ErrorComponent() {
@@ -79,11 +87,12 @@ function ErrorComponent() {
             {/* You can open the modal using document.getElementById('ID').showModal() method */}
             <button
                 className="btn hidden"
+                id="modalTriggerButton"
                 onClick={() =>
                     document.getElementById("buyMeACoffee").showModal()
                 }
             ></button>
-            <dialog id="my_modal_4" className="modal">
+            <dialog id="buyMeACoffee" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
                     <h3 className="font-bold text-lg">
                         API credits used up for the minute!
@@ -91,13 +100,20 @@ function ErrorComponent() {
                     <p className="py-4">
                         The Graph could not be generated due to the free-tier
                         API plan this project is currently using. If you wish to
-                        get rid of rate-limits, considering buying me a coffee.
-                        ;&rpar;
+                        get rid of rate-limits, consider clicking on the link
+                        below. ;&#41;
                     </p>
+                    <img
+                        src="./src/assets/yellow-button.png"
+                        onClick={() =>
+                            window.open("https://www.buymeacoffee.com/dna737")
+                        }
+                        style={{ cursor: "pointer" }}
+                        className="w-1/3 h-1/3"
+                    ></img>
                     <div className="modal-action">
                         <form method="dialog" className="flex-col">
                             {/* if there is a button, it will close the modal */}
-                            <BuyMeACoffee />
                             <button className="btn">Close</button>
                         </form>
                     </div>
