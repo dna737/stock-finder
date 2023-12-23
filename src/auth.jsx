@@ -66,14 +66,13 @@ export default function App() {
                 {(currInput[1] && <Graph ticker={currInput[0]} />) || (
                     <ErrorComponent />
                 )}
-                {activateCoffeeButton()}
             </div>
         );
     }
 }
 
-function activateCoffeeButton() {
-    const modal = document.getElementById("buyMeACoffee");
+function activateErrorComponent() {
+    const modal = document.getElementById("errorModal");
     if (modal) {
         modal.showModal();
     } else {
@@ -83,42 +82,9 @@ function activateCoffeeButton() {
 
 function ErrorComponent() {
     return (
-        <div className="flex flex-col justify-center my-3.5 mx-3.5 w-full h-full">
-            {/* You can open the modal using document.getElementById('ID').showModal() method */}
-            <button
-                className="btn hidden"
-                id="modalTriggerButton"
-                onClick={() =>
-                    document.getElementById("buyMeACoffee").showModal()
-                }
-            ></button>
-            <dialog id="buyMeACoffee" className="modal">
-                <div className="modal-box w-11/12 max-w-5xl">
-                    <h3 className="font-bold text-lg">
-                        API credits used up for the minute!
-                    </h3>
-                    <p className="py-4">
-                        The Graph could not be generated due to the free-tier
-                        API plan this project is currently using. If you wish to
-                        get rid of rate-limits, consider clicking on the link
-                        below. ;&#41;
-                    </p>
-                    <img
-                        src="./src/assets/yellow-button.png"
-                        onClick={() =>
-                            window.open("https://www.buymeacoffee.com/dna737")
-                        }
-                        style={{ cursor: "pointer" }}
-                        className="w-1/3 h-1/3"
-                    ></img>
-                    <div className="modal-action">
-                        <form method="dialog" className="flex-col">
-                            {/* if there is a button, it will close the modal */}
-                            <button className="btn">Close</button>
-                        </form>
-                    </div>
-                </div>
-            </dialog>
+        <div className="flex text-center flex-col justify-center my-3.5 mx-3.5 w-full h-full">
+            We weren&apos;t able to find a stock with that ticker. Please enter
+            a valid ticker.
         </div>
     );
 }
