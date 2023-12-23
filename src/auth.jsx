@@ -1,4 +1,3 @@
-import { BuyMeACoffee } from "./Coffee";
 import InputForm from "./InputForm";
 import "./index.css";
 import { useState, useEffect } from "react";
@@ -68,15 +67,6 @@ export default function App() {
                 )}
             </div>
         );
-    }
-}
-
-function activateErrorComponent() {
-    const modal = document.getElementById("errorModal");
-    if (modal) {
-        modal.showModal();
-    } else {
-        console.error("doesnt work");
     }
 }
 
