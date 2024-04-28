@@ -21,7 +21,6 @@ export default function App() {
             .select("Ticker")
             .match({ Ticker: value.toUpperCase() });
 
-        console.log("data:", data);
         if (error) {
             console.error("Error checking the database:", error.message);
             return;
@@ -30,9 +29,6 @@ export default function App() {
         const isInDB = data.length > 0;
 
         setCurrInput([value.toUpperCase(), isInDB]);
-        console.log("🚀 ~ file: auth.jsx:35 ~ handleSubmit ~  isInDB:", isInDB);
-
-        console.log("newValueSet");
     };
 
     useEffect(() => {

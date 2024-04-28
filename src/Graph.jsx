@@ -27,11 +27,6 @@ export default function Graph({ ticker = "AAPL" }) {
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                console.log("data:", data);
-                console.log(
-                    "🚀 ~ file: Graph.jsx:33 ~ fetchGraphData ~ ticker:",
-                    ticker
-                );
                 const result = data[ticker].values;
 
                 // Use Promise.all to wait for all map operations to complete
