@@ -4,6 +4,15 @@ This program fetches the closing values
 for a given ticker over the past month
 and displays them as a Line chart. 
 
+
+Here is a project demonstration with the following tickers:
+* AAPL (Apple)
+* V (Visa)
+* NFLX (Netflix)
+
+![stockFinderDemo](https://github.com/dna737/stock-finder/assets/102070227/704ed18b-3fe1-4130-9504-1f5320b02448)
+
+
 ## Logic Flowchart:
 ![image](https://github.com/dna737/stock-finder/assets/102070227/bfa73d7d-5fc0-41e1-a4ba-76a6e1965d8f)
 
