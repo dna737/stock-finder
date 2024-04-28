@@ -13,7 +13,7 @@ const supabase = createClient(
 
 export default function App() {
     const [session, setSession] = useState(null);
-    const [currInput, setCurrInput] = useState(["AAPL", true]);
+    const [currInput, setCurrInput] = useState(["AAPL", true]); //[ticker, tickerInDB];
 
     const handleSubmit = async (value) => {
         const { data, error } = await supabase

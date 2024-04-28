@@ -10,11 +10,12 @@ import {
     CartesianGrid,
 } from "recharts";
 import { useState, useEffect } from "react";
+import { BuyMeACoffee } from "./Coffee";
 
 export default function Graph({ ticker = "AAPL" }) {
-    // return <h2 className="text-5xl"></h2>;
     const [graphInfo, setGraphInfo] = useState([]);
     const [extremes, setExtremes] = useState({});
+    const [isError, setIsError] = useState(false);
 
     const url =
         import.meta.env.VITE_TWELVEURL_FORMER +
@@ -22,14 +23,13 @@ export default function Graph({ ticker = "AAPL" }) {
         ticker.toUpperCase() +
         import.meta.env.VITE_TWELVEURL_LATTER;
     useEffect(() => {
-        async function fetchData() {
+        async function fetchGraphData() {
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 console.log("data:", data);
-
                 console.log(
-                    "🚀 ~ file: Graph.jsx:33 ~ fetchData ~ ticker:",
+                    "🚀 ~ file: Graph.jsx:33 ~ fetchGraphData ~ ticker:",
                     ticker
                 );
                 const result = data[ticker].values;
@@ -48,49 +48,57 @@ export default function Graph({ ticker = "AAPL" }) {
                     max: Math.max(closeValues),
                 });
 
+                // reverse the array so that the oldest part is closer to the origin.
                 setGraphInfo(finalThing.reverse());
             } catch (error) {
-                console.error(error);
-                //TODO: display another component later.
+                setIsError(true);
             }
         }
 
-        fetchData();
+        fetchGraphData();
     }, [ticker, url]);
 
     return (
         <div className="flex flex-col justify-center my-3.5 mx-3.5 w-full h-full">
-            <h1 className="text-3xl text-red-700 text-center">{ticker}</h1>
-            <ResponsiveContainer width="70%" height="70%">
-                <LineChart
-                    width={500}
-                    height={300}
-                    data={graphInfo}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="datetime" />
-                    <YAxis
-                        type="number"
-                        domain={[extremes.min, extremes.max]}
-                    />
-                    <Tooltip />
-                    <Legend />
-                    <Line
-                        type="monotone"
-                        dataKey="close"
-                        stroke="#8884d8"
-                        activeDot={{ r: 8 }}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
+            {isError ? <BuyMeACoffee /> : <GraphComponent />}
         </div>
     );
+
+    function GraphComponent() {
+        return (
+            <div className="flex flex-col justify-center my-3.5 mx-3.5 w-full h-full">
+                <h1 className="text-3xl text-red-700 text-center">{ticker}</h1>
+                <ResponsiveContainer width="70%" height="70%">
+                    <LineChart
+                        width={500}
+                        height={300}
+                        data={graphInfo}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="datetime" />
+                        <YAxis
+                            type="number"
+                            domain={[extremes.min, extremes.max]}
+                        />
+                        <Tooltip />
+                        <Legend />
+                        <Line
+                            type="monotone"
+                            dataKey="close"
+                            stroke="#8884d8"
+                            activeDot={{ r: 8 }}
+                        />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
+        );
+    }
 }
 
 Graph.propTypes = {
